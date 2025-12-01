@@ -1,0 +1,13 @@
+[package]
+name = "aoc-common"
+version = "0.1.0"
+authors = ["Mathieu Lemay <acidrain1@gmail.com>"]
+edition = "2024"
+
+[dependencies]
+itertools = "0.14.0"
+textwrap = "0.16.2"
+tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
+
+[dev-dependencies]
+rstest = "0.26.1"
