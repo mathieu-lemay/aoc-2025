@@ -1,13 +1,13 @@
 set dotenv-load := true
 
 run day='':
-    cargo run --bin "day$(just _day {{ day }})"
+    RUST_LOG=debug cargo run --bin "day$(just _day {{ day }})"
 
 bench day='':
     cargo run --release --bin "day$(just _day {{ day }})"
 
 test day='':
-    cargo test --bin "day$(just _day {{ day }})"
+    RUST_LOG=debug cargo test --bin "day$(just _day {{ day }})"
 
 expensive-tests day='':
     RUST_BACKTRACE=1 RUST_MIN_STACK=8388608 cargo test --bin "day$(just _day {{ day }})" -- --ignored
