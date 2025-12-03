@@ -49,22 +49,27 @@ fn get_highest_joltage(bank: &[u8], n: u32) -> u64 {
 
     for i in 0..n {
         let skip_end = n - i - 1;
+        let mut m = 0;
+        let mut idx = 0;
 
-        let m = bank
-            .iter()
-            .skip(start)
-            .take(bank_size - start - skip_end as usize)
-            .max()
-            .unwrap();
-        let (idx, _) = bank
+        for (i, &v) in bank
             .iter()
             .enumerate()
             .skip(start)
-            .find(|(_, c)| *c == m)
-            .unwrap();
+            .take(bank_size - start - skip_end as usize)
+        {
+            if v > m {
+                m = v;
+                idx = i;
+            }
+            if v == 9 {
+                break;
+            }
+        }
+
         start = idx + 1;
 
-        joltage = joltage * 10 + *m as u64;
+        joltage = joltage * 10 + m as u64;
     }
 
     joltage
