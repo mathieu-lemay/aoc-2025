@@ -1,7 +1,7 @@
 set dotenv-load := true
 
 run day='':
-    RUST_LOG=debug cargo run --bin "day$(just _day {{ day }})"
+    RUST_LOG="${RUST_LOG:-debug}" cargo run --bin "day$(just _day {{ day }})"
 
 bench day='':
     cargo run --release --bin "day$(just _day {{ day }})"

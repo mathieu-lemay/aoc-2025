@@ -1,11 +1,9 @@
-use std::fmt::Display;
+use std::fmt::{Debug, Display, Formatter};
 use std::time::Instant;
 
+use aoc_common::grid::Grid;
 use aoc_common::{Point, format_duration, get_input, tracing_init};
-use grid::Grid;
 use tracing::debug;
-
-mod grid;
 
 fn main() {
     tracing_init();
@@ -29,12 +27,29 @@ enum Element {
     RollOfPaper,
 }
 
-impl From<char> for Element {
-    fn from(value: char) -> Self {
+impl Display for Element {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        Display::fmt(&format!("{:?}", self), f)
+    }
+}
+
+impl TryFrom<char> for Element {
+    type Error = String;
+
+    fn try_from(value: char) -> Result<Self, Self::Error> {
         match value {
-            '.' => Element::Empty,
-            '@' => Element::RollOfPaper,
-            _ => panic!("Invalid value: {}", value),
+            '.' => Ok(Element::Empty),
+            '@' => Ok(Element::RollOfPaper),
+            _ => Err(format!("Invalid value: {}", value)),
+        }
+    }
+}
+
+impl From<Element> for char {
+    fn from(value: Element) -> Self {
+        match value {
+            Element::Empty => '.',
+            Element::RollOfPaper => '@',
         }
     }
 }
@@ -67,6 +82,7 @@ fn get_accessible_rolls(grid: &Grid<Element>) -> i32 {
                 .iter()
                 .filter(|c| c.value == Element::RollOfPaper)
                 .count();
+
             debug!(
                 "{:?}: Has {} adjacent cells, of which {} are rolls",
                 p,

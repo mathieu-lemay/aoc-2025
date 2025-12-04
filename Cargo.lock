@@ -18,6 +18,7 @@ dependencies = [
  "itertools",
  "rstest",
  "textwrap",
+ "tracing",
  "tracing-subscriber",
 ]
 

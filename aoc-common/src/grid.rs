@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use aoc_common::Point;
+use super::Point;
 
 #[derive(PartialEq, Clone)]
 pub struct GridCell<T> {
@@ -130,20 +130,29 @@ where
 
 impl<T> Grid<T>
 where
-    T: From<char>,
+    T: TryFrom<char>,
 {
     #[tracing::instrument(skip_all)]
-    pub fn from_input(input: &[String]) -> Result<Self, &'static str> {
+    pub fn from_input(input: &[String]) -> Result<Self, String> {
         let height = input.len();
         let width = input[0].len();
 
-        let values: Result<Vec<Vec<T>>, &'static str> = input
+        let values: Result<Vec<Vec<T>>, String> = input
             .iter()
             .map(|r| {
                 if r.len() != width {
-                    return Err("Invalid row length");
+                    return Err("Invalid row length".to_string());
                 }
-                Ok(r.chars().map(T::from).collect())
+
+                let values: Result<Vec<T>, String> = r
+                    .chars()
+                    .map(|v| match T::try_from(v) {
+                        Ok(v) => Ok(v),
+                        Err(_) => Err(format!("Invalid value: {}", v)),
+                    })
+                    .collect();
+
+                values
             })
             .collect();
 
@@ -155,9 +164,10 @@ where
     }
 }
 
-impl<T> std::fmt::Debug for Grid<T>
+impl<T> Display for Grid<T>
 where
-    T: Display,
+    T: Copy,
+    char: From<T>,
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str("Grid {\n")?;
@@ -165,7 +175,7 @@ where
         for r in &self.values {
             f.write_fmt(format_args!(
                 "{}\n",
-                r.iter().map(|v| format!("{}", v)).collect::<String>()
+                r.iter().map(|&v| char::from(v)).collect::<String>()
             ))?;
         }
 

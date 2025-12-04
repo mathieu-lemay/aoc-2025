@@ -10,6 +10,8 @@ use tracing_subscriber::EnvFilter;
 use tracing_subscriber::filter::LevelFilter;
 use tracing_subscriber::fmt::format::FmtSpan;
 
+pub mod grid;
+
 pub fn get_input(filename: &str) -> Vec<String> {
     let path = format!("{}/../input/{}", env!("CARGO_MANIFEST_DIR"), filename);
     let file = match File::open(path) {
