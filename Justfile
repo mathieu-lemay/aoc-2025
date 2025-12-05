@@ -16,7 +16,7 @@ lint:
     pre-commit run -a
 
 watch day='':
-    cargo watch -s "cargo test --bin \"day$(just _day {{ day }})\""
+    bacon -s "cargo test --bin \"day$(just _day {{ day }})\""
 
 prepare day='':
     #! /bin/sh
