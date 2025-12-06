@@ -61,7 +61,7 @@ fn get_sum_of_invalid_ids(ranges: &[Range]) -> u64 {
         while v <= r.end {
             let len = v.checked_ilog10().unwrap_or(0) + 1;
 
-            if len % 2 == 1 {
+            if !len.is_multiple_of(2) {
                 // Skip straight to the next even length value
                 v = 10u64.pow(len);
                 continue;
@@ -88,7 +88,7 @@ fn get_divisors(cache: &mut HashMap<u32, Vec<u32>>, n: u32) -> &[u32] {
         let mut factors: Vec<u32> = Vec::new();
 
         for i in 1..=(n / 2) {
-            if n % i == 0 {
+            if n.is_multiple_of(i) {
                 factors.push(i);
             }
         }
