@@ -23,6 +23,38 @@ where
         self.values[pos.y][pos.x]
     }
 
+    pub fn get_above(&self, pos: Point<usize>) -> Option<T> {
+        if pos.y > 0 {
+            Some(self.values[pos.y - 1][pos.x])
+        } else {
+            None
+        }
+    }
+
+    pub fn get_below(&self, pos: Point<usize>) -> Option<T> {
+        if pos.y < self.height - 1 {
+            Some(self.values[pos.y + 1][pos.x])
+        } else {
+            None
+        }
+    }
+
+    pub fn get_left(&self, pos: Point<usize>) -> Option<T> {
+        if pos.x > 0 {
+            Some(self.values[pos.y][pos.x - 1])
+        } else {
+            None
+        }
+    }
+
+    pub fn get_right(&self, pos: Point<usize>) -> Option<T> {
+        if pos.x < self.width - 1 {
+            Some(self.values[pos.y][pos.x + 1])
+        } else {
+            None
+        }
+    }
+
     pub fn set(&mut self, pos: Point<usize>, value: T) {
         self.values[pos.y][pos.x] = value
     }

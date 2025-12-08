@@ -142,7 +142,7 @@ fn parse_problems_like_a_dumbass(input: &[String]) -> Result<Vec<Problem>, Strin
             continue;
         }
 
-        let mut val:u64 = 0;
+        let mut val: u64 = 0;
 
         for c in &col {
             if c.is_ascii_digit() {
