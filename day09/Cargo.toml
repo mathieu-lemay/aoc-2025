@@ -6,6 +6,7 @@ edition = "2024"
 
 [dependencies]
 aoc-common = { path = "../aoc-common" }
+geo = "0.32.0"
 itertools = "0.14.0"
 test-log = { version = "0.2.19", features = ["trace"] }
 tracing = "0.1.43"
