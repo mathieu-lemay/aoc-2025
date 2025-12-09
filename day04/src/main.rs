@@ -70,13 +70,13 @@ fn get_accessible_rolls(grid: &Grid<Element>) -> i32 {
     for y in 0..grid.height {
         for x in 0..grid.width {
             let p = Point::new(x, y);
-            let elem = grid.get(p);
+            let elem = grid.get(&p);
             if elem != Element::RollOfPaper {
                 debug!("{:?}: Not a roll of paper", p);
                 continue;
             }
 
-            let adjacent_cells = grid.get_neighbors(p);
+            let adjacent_cells = grid.get_neighbors(&p);
 
             let n_adjacent_rolls = adjacent_cells
                 .iter()
@@ -108,13 +108,13 @@ fn get_accessible_rolls_recursive(grid: &mut Grid<Element>) -> i32 {
         for y in 0..grid.height {
             for x in 0..grid.width {
                 let p = Point::new(x, y);
-                let elem = grid.get(p);
+                let elem = grid.get(&p);
                 if elem != Element::RollOfPaper {
                     debug!("{:?}: Not a roll of paper", p);
                     continue;
                 }
 
-                let adjacent_cells = grid.get_neighbors(p);
+                let adjacent_cells = grid.get_neighbors(&p);
 
                 let n_adjacent_rolls = adjacent_cells
                     .iter()
@@ -130,7 +130,7 @@ fn get_accessible_rolls_recursive(grid: &mut Grid<Element>) -> i32 {
 
                 if n_adjacent_rolls < 4 {
                     pass_count += 1;
-                    grid.set(p, Element::Empty);
+                    grid.set(&p, Element::Empty);
                 }
             }
         }

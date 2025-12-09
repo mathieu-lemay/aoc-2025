@@ -19,11 +19,11 @@ impl<T> Grid<T>
 where
     T: Copy,
 {
-    pub fn get(&self, pos: Point<usize>) -> T {
+    pub fn get(&self, pos: &Point<usize>) -> T {
         self.values[pos.y][pos.x]
     }
 
-    pub fn get_above(&self, pos: Point<usize>) -> Option<T> {
+    pub fn get_above(&self, pos: &Point<usize>) -> Option<T> {
         if pos.y > 0 {
             Some(self.values[pos.y - 1][pos.x])
         } else {
@@ -31,7 +31,7 @@ where
         }
     }
 
-    pub fn get_below(&self, pos: Point<usize>) -> Option<T> {
+    pub fn get_below(&self, pos: &Point<usize>) -> Option<T> {
         if pos.y < self.height - 1 {
             Some(self.values[pos.y + 1][pos.x])
         } else {
@@ -39,7 +39,7 @@ where
         }
     }
 
-    pub fn get_left(&self, pos: Point<usize>) -> Option<T> {
+    pub fn get_left(&self, pos: &Point<usize>) -> Option<T> {
         if pos.x > 0 {
             Some(self.values[pos.y][pos.x - 1])
         } else {
@@ -47,7 +47,7 @@ where
         }
     }
 
-    pub fn get_right(&self, pos: Point<usize>) -> Option<T> {
+    pub fn get_right(&self, pos: &Point<usize>) -> Option<T> {
         if pos.x < self.width - 1 {
             Some(self.values[pos.y][pos.x + 1])
         } else {
@@ -55,11 +55,11 @@ where
         }
     }
 
-    pub fn set(&mut self, pos: Point<usize>, value: T) {
+    pub fn set(&mut self, pos: &Point<usize>, value: T) {
         self.values[pos.y][pos.x] = value
     }
 
-    pub fn get_neighbors(&self, pos: Point<usize>) -> Vec<GridCell<T>> {
+    pub fn get_neighbors(&self, pos: &Point<usize>) -> Vec<GridCell<T>> {
         let mut neighbors = Vec::with_capacity(8);
 
         if pos.y > 0 {

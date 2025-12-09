@@ -72,36 +72,36 @@ fn get_number_of_splits(grid: &mut Grid<Element>) -> usize {
     for y in 0..grid.height {
         for x in 0..grid.width {
             let pos = Point::new(x, y);
-            let cur = grid.get(pos);
+            let cur = grid.get(&pos);
 
             debug!(
                 "pos={:?}, cur={:?}, above={:?}",
                 pos,
                 cur,
-                grid.get_above(pos)
+                grid.get_above(&pos)
             );
 
             match cur {
                 Element::Start => {
                     let p = Point::new(x, y + 1);
-                    grid.set(p, Element::Beam);
+                    grid.set(&p, Element::Beam);
                 }
                 Element::Empty => {
-                    if let Some(Element::Beam) = grid.get_above(pos) {
+                    if let Some(Element::Beam) = grid.get_above(&pos) {
                         debug!("above is beam, setting {:?} to beam", pos);
-                        grid.set(pos, Element::Beam);
+                        grid.set(&pos, Element::Beam);
                     }
                 }
                 Element::Splitter => {
-                    if let Some(Element::Beam) = grid.get_above(pos) {
+                    if let Some(Element::Beam) = grid.get_above(&pos) {
                         splits += 1;
                         if pos.x > 0 {
                             let p = Point::new(x - 1, y);
-                            grid.set(p, Element::Beam);
+                            grid.set(&p, Element::Beam);
                         }
                         if pos.x < grid.width - 1 {
                             let p = Point::new(x + 1, y);
-                            grid.set(p, Element::Beam);
+                            grid.set(&p, Element::Beam);
                         }
                     }
                 }
@@ -116,7 +116,7 @@ fn get_number_of_splits(grid: &mut Grid<Element>) -> usize {
 #[tracing::instrument(skip_all)]
 fn get_timelines(grid: &Grid<Element>) -> usize {
     let x = (0..grid.width)
-        .find(|&x| grid.get(Point::new(x, 0)) == Element::Start)
+        .find(|&x| grid.get(&Point::new(x, 0)) == Element::Start)
         .unwrap();
 
     let mut cache: HashMap<Point<usize>, usize> = HashMap::new();
@@ -139,7 +139,7 @@ fn get_children(
         return 1;
     }
 
-    let cur = grid.get(pos);
+    let cur = grid.get(&pos);
     let timelines = match cur {
         Element::Start | Element::Empty => get_children(grid, cache, x, y + 1),
         Element::Splitter => {

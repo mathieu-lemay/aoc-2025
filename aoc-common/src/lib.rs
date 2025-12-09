@@ -87,10 +87,10 @@ pub fn parse_test_input_as_string(input: &str) -> String {
     dedent(input).trim().to_owned()
 }
 
-#[derive(Debug, Copy, Clone, Hash, Eq, PartialEq)]
+#[derive(Debug, Clone, Hash, Eq, PartialEq)]
 pub struct Point<T>
 where
-    T: Clone + Copy,
+    T: Clone,
 {
     pub x: T,
     pub y: T,
@@ -98,16 +98,16 @@ where
 
 impl<T> Point<T>
 where
-    T: Clone + Copy,
+    T: Clone,
 {
     pub fn new(x: T, y: T) -> Self {
         Self { x, y }
     }
 }
 
-impl<T> Display for  Point<T>
+impl<T> Display for Point<T>
 where
-    T: Display+Copy,
+    T: Display + Copy,
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_fmt(format_args!("{},{}", self.x, self.y))
