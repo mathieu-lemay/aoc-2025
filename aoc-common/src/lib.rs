@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 use std::fs::{File, read_to_string};
 use std::io::{BufRead, BufReader};
 use std::ops::{Add, Mul, Sub};
@@ -102,6 +102,15 @@ where
 {
     pub fn new(x: T, y: T) -> Self {
         Self { x, y }
+    }
+}
+
+impl<T> Display for  Point<T>
+where
+    T: Display+Copy,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_fmt(format_args!("{},{}", self.x, self.y))
     }
 }
 
